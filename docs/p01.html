@@ -343,7 +343,8 @@ euismod.</p>
 <pre class="r"><code># Create a barplot of the number of fish encounters by species
 ggplot(data = fish_encounters, aes(x = station, y = seen)) +
   geom_bar(stat = &quot;identity&quot;) +
-  labs(x = &quot;Species&quot;, y = &quot;Number of Fish Encounters&quot;)</code></pre>
+  labs(x = &quot;Species&quot;, y = &quot;Number of Fish Encounters&quot;) +
+  theme_minimal()</code></pre>
 <p><img src="p01_files/figure-html/unnamed-chunk-2-1.png" alt="" width="672" /></p>
 <p>Mauris placerat in velit a pharetra. Nulla viverra bibendum lectus,
 ut lobortis nibh. Aenean malesuada, orci vitae dictum placerat, enim
@@ -355,7 +356,8 @@ feugiat risus at turpis tincidunt viverra.</p>
 <pre class="r"><code># Create a barplot of the number of fish encounters by species
 ggplot(data = fish_encounters, aes(x = station, y = seen)) +
   geom_bar(stat = &quot;identity&quot;) +
-  labs(x = &quot;Species&quot;, y = &quot;Number of Fish Encounters&quot;)</code></pre>
+  labs(x = &quot;Species&quot;, y = &quot;Number of Fish Encounters&quot;) +
+  theme_classic()</code></pre>
 <p><img src="p01_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
 <p>Donec sagittis suscipit orci in ultrices. Vivamus iaculis eleifend
 est et dictum. Fusce non urna at lacus dapibus tincidunt ac sed nibh.
