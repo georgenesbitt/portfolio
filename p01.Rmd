@@ -7,46 +7,62 @@ title: "Portfolio 1"
 ```{r load-packages, warning = FALSE, message=FALSE}
 library(tidyverse) 
 library(tidyr)
-data(fish_encounters)
+library(scales)
+
+```
+```{r}
+library(readr)
+
+nc_winston_salem_2020_04_01 <- read_csv("nc_winston-salem_2020_04_01.csv")
+
 ```
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget nibh vel est aliquet iaculis at placerat sem. Aenean faucibus iaculis ultricies. Nullam consequat odio in ultricies ullamcorper. Etiam venenatis in est vitae ullamcorper. Nam vitae urna ut dolor rhoncus aliquet at vel neque. Quisque tristique leo finibus nisi interdum, sit amet tempor risus viverra. Donec mollis vulputate sodales. Nunc ornare, leo quis euismod eleifend, eros mi maximus felis, vel varius lacus dui eget nibh. Duis vitae nunc nisl. Donec accumsan aliquam elit, eu fringilla quam pulvinar eget.
+The data in this set contains crime numbers and statistics from Winston-Salem between the years 2000 and 2015.
 
-Mauris in ligula mauris. Curabitur facilisis pharetra metus eget lobortis. In egestas nibh sit amet faucibus eleifend. Suspendisse imperdiet viverra blandit. Phasellus consectetur tincidunt eros eu facilisis. Quisque maximus, orci eget sodales aliquam, velit lorem semper dolor, nec convallis erat ipsum mattis velit. Pellentesque porttitor, mauris vitae aliquam mattis, metus nisl viverra turpis, vel convallis metus sapien et ex. Nunc consequat ipsum id dolor eleifend, sit amet semper eros sodales. Pellentesque consectetur, dui quis venenatis malesuada, nunc lorem lacinia libero, vitae malesuada dui arcu in augue. Aliquam id sagittis libero. Vestibulum aliquet sagittis libero, non posuere odio molestie ut. Curabitur lacus enim, viverra vel odio non, pretium efficitur elit. Mauris posuere efficitur interdum. Nunc sed bibendum turpis, quis fringilla velit. Phasellus eu lorem lobortis eros molestie laoreet.
+The goal of this portfolio piece is to create plots that will visualize data contrasting the gender and race in regards to the amount of searches conducted. Although in this portfolio, I will not be able to make a judgment about whether discrimination exists 
 
+I found this dataset using Stanford's open policing database and selected it because of it's topicality to Wake Forest.
+
+```{r glimpse at the crime statistics}
+glimpse(nc_winston_salem_2020_04_01)
+```
+```{r create new variable for searches only}
+wsnc_search <- nc_winston_salem_2020_04_01 %>%
+  filter(search_conducted == TRUE)
+```
+```{r create a binary white or not white category}
+wsnc_search <- wsnc_search %>%
+  mutate(not_white = subject_race != "white")
+```
+```{r}
+nc_winston_salem_2020_04_01 <- nc_winston_salem_2020_04_01 %>%
+  mutate(not_white = subject_race != "white")
+```
+```{r}
+nc_winston_salem_2020_04_01 <- nc_winston_salem_2020_04_01 %>%
+  mutate(searched = isTRUE(search_conducted))
+```
+
+
+
+
+Right now, I am only interested in police records where searches are made. I want to see if there is a difference in searches made between sex and race. Thus, I created a new variable that filters filters the dataset down to police activity where searches are conducted. I also created a new value that states whether the subject is white or not white. This will help me when I want to plot race.
 
 
 ```{r}
-# Create a barplot of the number of fish encounters by species
-ggplot(data = fish_encounters, aes(x = station, y = seen)) +
-  geom_bar(stat = "identity") +
-  labs(x = "Species", y = "Number of Fish Encounters")
-  
+ggplot(wsnc_search, aes(x = subject_sex)) +
+  geom_bar() +
+  labs(
+    title = "Searches by Gender",
+    x = "Gender",
+    y = "Number of Searches"
+  )
 ```
-
-
-Sed mollis purus faucibus leo finibus, ut pharetra nibh elementum. Nulla id orci lorem. Mauris sollicitudin mi eget tellus vehicula, ut convallis lorem mollis. In blandit nulla diam, a malesuada sem volutpat interdum. Ut elementum elit at velit maximus, ac tempor odio porttitor. Suspendisse lobortis sollicitudin tortor, ut pharetra libero luctus a. Sed hendrerit faucibus metus. Sed rutrum purus vel pellentesque euismod.
-
-
 ```{r}
-# Create a barplot of the number of fish encounters by species
-ggplot(data = fish_encounters, aes(x = station, y = seen)) +
-  geom_bar(stat = "identity") +
-  labs(x = "Species", y = "Number of Fish Encounters") +
-  theme_minimal()
-  
+ggplot(wsnc_search, aes(x = not_white)) +
+  geom_bar() +
+  labs(
+    title = "Searches by race",
+    x = "Non-White",
+    y = "Number of Searches")
 ```
-
-Mauris placerat in velit a pharetra. Nulla viverra bibendum lectus, ut lobortis nibh. Aenean malesuada, orci vitae dictum placerat, enim justo aliquet leo, ac tincidunt augue ipsum et mi. Nullam in pharetra metus, nec molestie felis. Duis varius rhoncus pulvinar. Integer semper urna sed tellus rhoncus, vel suscipit odio iaculis. Mauris iaculis neque pellentesque ex convallis venenatis. Sed ultrices euismod fermentum. Ut feugiat risus at turpis tincidunt viverra.
-
-
-```{r}
-# Create a barplot of the number of fish encounters by species
-ggplot(data = fish_encounters, aes(x = station, y = seen)) +
-  geom_bar(stat = "identity") +
-  labs(x = "Species", y = "Number of Fish Encounters") +
-  theme_classic()
-  
-```
-
-Donec sagittis suscipit orci in ultrices. Vivamus iaculis eleifend est et dictum. Fusce non urna at lacus dapibus tincidunt ac sed nibh. Donec luctus lectus elit, ac ultrices tortor mollis sit amet. Nulla finibus lacinia arcu. Proin sollicitudin non odio et pulvinar. Maecenas finibus faucibus finibus. Ut elementum metus velit, a sodales sapien commodo et. Vivamus pulvinar, sapien et porta cursus, elit est luctus nisi, eget fringilla odio diam et enim. Sed sodales suscipit bibendum. Morbi ut metus semper, laoreet felis sodales, consequat dolor.
