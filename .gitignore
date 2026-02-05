@@ -40,3 +40,5 @@ vignettes/*.pdf
 
 # Specific keeps
 !.gitkeep
+docs/nc_winston-salem_2020_04_01.csv
+nc_winston-salem_2020_04_01.csv

@@ -304,69 +304,140 @@ and of high quality in terms of writing, grammar, presentation, etc.</p>
 </blockquote>
 <pre class="r"><code>library(tidyverse) 
 library(tidyr)
-data(fish_encounters)</code></pre>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-eget nibh vel est aliquet iaculis at placerat sem. Aenean faucibus
-iaculis ultricies. Nullam consequat odio in ultricies ullamcorper. Etiam
-venenatis in est vitae ullamcorper. Nam vitae urna ut dolor rhoncus
-aliquet at vel neque. Quisque tristique leo finibus nisi interdum, sit
-amet tempor risus viverra. Donec mollis vulputate sodales. Nunc ornare,
-leo quis euismod eleifend, eros mi maximus felis, vel varius lacus dui
-eget nibh. Duis vitae nunc nisl. Donec accumsan aliquam elit, eu
-fringilla quam pulvinar eget.</p>
-<p>Mauris in ligula mauris. Curabitur facilisis pharetra metus eget
-lobortis. In egestas nibh sit amet faucibus eleifend. Suspendisse
-imperdiet viverra blandit. Phasellus consectetur tincidunt eros eu
-facilisis. Quisque maximus, orci eget sodales aliquam, velit lorem
-semper dolor, nec convallis erat ipsum mattis velit. Pellentesque
-porttitor, mauris vitae aliquam mattis, metus nisl viverra turpis, vel
-convallis metus sapien et ex. Nunc consequat ipsum id dolor eleifend,
-sit amet semper eros sodales. Pellentesque consectetur, dui quis
-venenatis malesuada, nunc lorem lacinia libero, vitae malesuada dui arcu
-in augue. Aliquam id sagittis libero. Vestibulum aliquet sagittis
-libero, non posuere odio molestie ut. Curabitur lacus enim, viverra vel
-odio non, pretium efficitur elit. Mauris posuere efficitur interdum.
-Nunc sed bibendum turpis, quis fringilla velit. Phasellus eu lorem
-lobortis eros molestie laoreet.</p>
-<pre class="r"><code># Create a barplot of the number of fish encounters by species
-ggplot(data = fish_encounters, aes(x = station, y = seen)) +
-  geom_bar(stat = &quot;identity&quot;) +
-  labs(x = &quot;Species&quot;, y = &quot;Number of Fish Encounters&quot;)</code></pre>
-<p><img src="p01_files/figure-html/unnamed-chunk-1-1.png" alt="" width="672" /></p>
-<p>Sed mollis purus faucibus leo finibus, ut pharetra nibh elementum.
-Nulla id orci lorem. Mauris sollicitudin mi eget tellus vehicula, ut
-convallis lorem mollis. In blandit nulla diam, a malesuada sem volutpat
-interdum. Ut elementum elit at velit maximus, ac tempor odio porttitor.
-Suspendisse lobortis sollicitudin tortor, ut pharetra libero luctus a.
-Sed hendrerit faucibus metus. Sed rutrum purus vel pellentesque
-euismod.</p>
-<pre class="r"><code># Create a barplot of the number of fish encounters by species
-ggplot(data = fish_encounters, aes(x = station, y = seen)) +
-  geom_bar(stat = &quot;identity&quot;) +
-  labs(x = &quot;Species&quot;, y = &quot;Number of Fish Encounters&quot;) +
-  theme_minimal()</code></pre>
-<p><img src="p01_files/figure-html/unnamed-chunk-2-1.png" alt="" width="672" /></p>
-<p>Mauris placerat in velit a pharetra. Nulla viverra bibendum lectus,
-ut lobortis nibh. Aenean malesuada, orci vitae dictum placerat, enim
-justo aliquet leo, ac tincidunt augue ipsum et mi. Nullam in pharetra
-metus, nec molestie felis. Duis varius rhoncus pulvinar. Integer semper
-urna sed tellus rhoncus, vel suscipit odio iaculis. Mauris iaculis neque
-pellentesque ex convallis venenatis. Sed ultrices euismod fermentum. Ut
-feugiat risus at turpis tincidunt viverra.</p>
-<pre class="r"><code># Create a barplot of the number of fish encounters by species
-ggplot(data = fish_encounters, aes(x = station, y = seen)) +
-  geom_bar(stat = &quot;identity&quot;) +
-  labs(x = &quot;Species&quot;, y = &quot;Number of Fish Encounters&quot;) +
-  theme_classic()</code></pre>
-<p><img src="p01_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
-<p>Donec sagittis suscipit orci in ultrices. Vivamus iaculis eleifend
-est et dictum. Fusce non urna at lacus dapibus tincidunt ac sed nibh.
-Donec luctus lectus elit, ac ultrices tortor mollis sit amet. Nulla
-finibus lacinia arcu. Proin sollicitudin non odio et pulvinar. Maecenas
-finibus faucibus finibus. Ut elementum metus velit, a sodales sapien
-commodo et. Vivamus pulvinar, sapien et porta cursus, elit est luctus
-nisi, eget fringilla odio diam et enim. Sed sodales suscipit bibendum.
-Morbi ut metus semper, laoreet felis sodales, consequat dolor.</p>
+library(scales)</code></pre>
+<pre class="r"><code>library(readr)
+
+nc_winston_salem_2020_04_01 &lt;- read_csv(&quot;nc_winston-salem_2020_04_01.csv&quot;)</code></pre>
+<pre><code>## Warning: One or more parsing issues, call `problems()` on your data frame for details,
+## e.g.:
+##   dat &lt;- vroom(...)
+##   problems(dat)</code></pre>
+<pre><code>## Rows: 452560 Columns: 29
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (14): location, county_name, subject_race, subject_sex, officer_id_hash...
+## dbl   (2): raw_row_number, subject_age
+## lgl  (11): arrest_made, citation_issued, warning_issued, contraband_found, c...
+## date  (1): date
+## time  (1): time
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>The data in this set contains crime numbers and statistics from
+Winston-Salem between the years 2000 and 2015.</p>
+<p>The goal of this portfolio piece is to create plots that will
+visualize data contrasting the gender and race in regards to the amount
+of searches conducted. Although in this portfolio, I will not be able to
+make a judgment about whether discrimination exists</p>
+<p>I found this dataset using Stanford’s open policing database and
+selected it because of it’s topicality to Wake Forest.</p>
+<pre class="r"><code>glimpse(nc_winston_salem_2020_04_01)</code></pre>
+<pre><code>## Rows: 452,560
+## Columns: 29
+## $ raw_row_number         &lt;dbl&gt; 3225, 3227, 3232, 3235, 3237, 3240, 3243, 3245,…
+## $ date                   &lt;date&gt; 2000-01-11, 2000-01-12, 2000-01-12, 2000-01-12…
+## $ time                   &lt;time&gt; 23:30:00, 00:59:00, 21:05:00, 21:05:00, 22:37:…
+## $ location               &lt;chr&gt; &quot;Unknown&quot;, &quot;Unknown&quot;, &quot;Unknown&quot;, &quot;Unknown&quot;, &quot;Un…
+## $ county_name            &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ subject_age            &lt;dbl&gt; 49, 21, 22, 21, 19, 19, 21, 19, 20, 24, 26, 23,…
+## $ subject_race           &lt;chr&gt; &quot;black&quot;, &quot;black&quot;, &quot;white&quot;, &quot;black&quot;, &quot;black&quot;, &quot;b…
+## $ subject_sex            &lt;chr&gt; &quot;female&quot;, &quot;male&quot;, &quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;…
+## $ officer_id_hash        &lt;chr&gt; &quot;22e35044ed&quot;, &quot;22e35044ed&quot;, &quot;22e35044ed&quot;, &quot;22e3…
+## $ department_name        &lt;chr&gt; &quot;Winston-Salem State University Police Departme…
+## $ type                   &lt;chr&gt; &quot;vehicular&quot;, &quot;vehicular&quot;, &quot;vehicular&quot;, &quot;vehicul…
+## $ arrest_made            &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE…
+## $ citation_issued        &lt;lgl&gt; FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, TRUE, TR…
+## $ warning_issued         &lt;lgl&gt; TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, F…
+## $ outcome                &lt;chr&gt; &quot;warning&quot;, &quot;citation&quot;, &quot;warning&quot;, &quot;citation&quot;, &quot;…
+## $ contraband_found       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ contraband_drugs       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ contraband_weapons     &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ frisk_performed        &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE…
+## $ search_conducted       &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE…
+## $ search_person          &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE…
+## $ search_vehicle         &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE…
+## $ search_basis           &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ reason_for_frisk       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ reason_for_search      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ reason_for_stop        &lt;chr&gt; &quot;Speed Limit Violation&quot;, &quot;Speed Limit Violation…
+## $ raw_Ethnicity          &lt;chr&gt; &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;H&quot;, &quot;N…
+## $ raw_Race               &lt;chr&gt; &quot;B&quot;, &quot;B&quot;, &quot;W&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;, &quot;U&quot;, &quot;B…
+## $ raw_action_description &lt;chr&gt; &quot;Verbal Warning&quot;, &quot;Citation Issued&quot;, &quot;Written W…</code></pre>
+<pre class="r"><code>wsnc_search &lt;- nc_winston_salem_2020_04_01 %&gt;%
+  filter(search_conducted == TRUE)</code></pre>
+<pre class="r"><code>wsnc_search &lt;- wsnc_search %&gt;%
+  mutate(not_white = subject_race != &quot;white&quot;)</code></pre>
+<pre class="r"><code>nc_winston_salem_2020_04_01 &lt;- nc_winston_salem_2020_04_01 %&gt;%
+  mutate(not_white = subject_race != &quot;white&quot;)</code></pre>
+<pre class="r"><code>nc_winston_salem_2020_04_01 &lt;- nc_winston_salem_2020_04_01 %&gt;%
+  mutate(searched = isTRUE(search_conducted))</code></pre>
+<p>Right now, I am only interested in police records where searches are
+made. I want to see if there is a difference in searches made between
+sex and race. Thus, I created a new variable that filters filters the
+dataset down to police activity where searches are conducted. I also
+created a new value that states whether the subject is white or not
+white. This will help me when I want to plot race.</p>
+<pre class="r"><code>ggplot(wsnc_search, aes(x = subject_sex)) +
+  geom_bar() +
+  labs(
+    title = &quot;Searches by Gender&quot;,
+    x = &quot;Gender&quot;,
+    y = &quot;Number of Searches&quot;
+  )</code></pre>
+<p><img src="p01_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672" /></p>
+<pre class="r"><code>ggplot(wsnc_search, aes(x = not_white)) +
+  geom_bar() +
+  labs(
+    title = &quot;Searches by race&quot;,
+    x = &quot;Non-White&quot;,
+    y = &quot;Number of Searches&quot;)</code></pre>
+<p><img src="p01_files/figure-html/unnamed-chunk-5-1.png" alt="" width="672" />
+Here I’ve shown in bar graph form the difference in number of non-white
+searches vs. white searches and male searches vs. female searches as
+well as a faceted My goal here is to find whether there is apparent
+gender discrimination or racial discrimination in frequency of search
+and then visualize this information. This would also require me to
+account for the proportion of total violations based on white or not
+white and female or male.</p>
+<pre class="r"><code>ggplot(wsnc_search, aes(x=subject_sex)) + geom_bar() + facet_wrap(~not_white)+
+  labs(
+    title=&quot;Searches by Gender and Race (False=White, True=Not White)&quot;,
+    x = &quot;Gender&quot;,
+    y=&quot; Number of Searches&quot;
+  )</code></pre>
+<p><img src="p01_files/figure-html/unnamed-chunk-6-1.png" alt="" width="672" /></p>
+<pre class="r"><code>table(wsnc_search$not_white)</code></pre>
+<pre><code>## 
+## FALSE  TRUE 
+##  3197  6012</code></pre>
+<pre class="r"><code>table(nc_winston_salem_2020_04_01$not_white)</code></pre>
+<pre><code>## 
+##  FALSE   TRUE 
+## 199175 253385</code></pre>
+<pre class="r"><code>(3197/199175)*100</code></pre>
+<pre><code>## [1] 1.605121</code></pre>
+<p>This number is the percent of white people who were searched. I
+divided the total amount of searched white people by the total amount of
+white people who were stopped by police. Below I do the same thing for
+non white people.</p>
+<pre class="r"><code>(6012/253385)*100</code></pre>
+<pre><code>## [1] 2.372674</code></pre>
+<pre class="r"><code>table(wsnc_search$subject_sex)</code></pre>
+<pre><code>## 
+## female   male 
+##   1630   7579</code></pre>
+<pre class="r"><code>table(nc_winston_salem_2020_04_01$subject_sex)</code></pre>
+<pre><code>## 
+## female   male 
+## 184701 267859</code></pre>
+<pre class="r"><code>(1630/184701)*100</code></pre>
+<pre><code>## [1] 0.8825074</code></pre>
+<pre class="r"><code>(7579/267859)*100</code></pre>
+<pre><code>## [1] 2.829474</code></pre>
+<p>In the next portfolio piece, it is my goal to be able to plot in a
+faceted bar plot, the number of searches proportionate to the amount of
+people in each category. This will help visualize the real difference
+between gender and race.</p>
 
 
 

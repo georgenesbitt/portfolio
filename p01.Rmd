@@ -66,3 +66,42 @@ ggplot(wsnc_search, aes(x = not_white)) +
     x = "Non-White",
     y = "Number of Searches")
 ```
+Here I've shown in bar graph form the difference in number of non-white searches vs. white searches and male searches vs. female searches as well as a faceted  My goal here is to find whether there is apparent gender discrimination or racial discrimination in frequency of search and then visualize this information. This would also require me to account for the proportion of total violations based on white or not white and female or male.
+
+```{r}
+ggplot(wsnc_search, aes(x=subject_sex)) + geom_bar() + facet_wrap(~not_white)+
+  labs(
+    title="Searches by Gender and Race (False=White, True=Not White)",
+    x = "Gender",
+    y=" Number of Searches"
+  )
+```
+
+
+```{r}
+table(wsnc_search$not_white)
+```
+```{r}
+table(nc_winston_salem_2020_04_01$not_white)
+```
+```{r}
+(3197/199175)*100
+```
+This number is the percent of white people who were searched. I divided the total amount of searched white people by the total amount of white people who were stopped by police. Below I do the same thing for non white people.
+```{r}
+(6012/253385)*100
+```
+```{r}
+table(wsnc_search$subject_sex)
+```
+```{r}
+table(nc_winston_salem_2020_04_01$subject_sex)
+```
+```{r}
+(1630/184701)*100
+```
+```{r}
+(7579/267859)*100
+```
+
+In the next portfolio piece, it is my goal to be able to plot in a faceted bar plot, the number of searches proportionate to the amount of people in each category. This will help visualize the real difference between gender and race. 
