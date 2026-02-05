@@ -76,16 +76,24 @@ ggplot(wsnc_search, aes(x=subject_sex)) + geom_bar() + facet_wrap(~not_white)+
     y=" Number of Searches"
   )
 ```
-
+I'm messing with this data for the purpose of portfolio piece 2 (Prof. Mason said this is ok!)
 
 ```{r}
 table(wsnc_search$not_white)
 ```
 ```{r}
 table(nc_winston_salem_2020_04_01$not_white)
+
 ```
 ```{r}
 (3197/199175)*100
+
+df3<-table(nc_winston_salem_2020_04_01$not_white)
+white_total<-df3[1]
+not_white_total<-df3[2]
+
+df4<-
+
 ```
 This number is the percent of white people who were searched. I divided the total amount of searched white people by the total amount of white people who were stopped by police. Below I do the same thing for non white people.
 ```{r}
@@ -99,9 +107,29 @@ table(nc_winston_salem_2020_04_01$subject_sex)
 ```
 ```{r}
 (1630/184701)*100
+
+df<-table(nc_winston_salem_2020_04_01$subject_sex)
+
+men_total <- df[2]
+
+
+df2<-table(wsnc_search$subject_sex)
+
+men_stopped<- df2[2]
 ```
 ```{r}
 (7579/267859)*100
+
+df<-table(nc_winston_salem_2020_04_01$subject_sex)
+
+women_total <- df[1]
+
+df2<-table(wsnc_search$subject_sex)
+
+women_stopped<- df2[1]
 ```
+
+
+
 
 In the next portfolio piece, it is my goal to be able to plot in a faceted bar plot, the number of searches proportionate to the amount of people in each category. This will help visualize the real difference between gender and race. 
