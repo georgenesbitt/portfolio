@@ -2,4 +2,80 @@
 title: "Portfolio 2"
 ---
 
-> The projects should be numbered consecutively (i.e., in the order in which you began them), and should include for each project a description of the goal, the product (computer program, hand graph, computer graph, etc.), the data, and some interpretation. Reports must be reproducible and of high quality in terms of writing, grammar, presentation, etc.
+I'm back. Right now I am going to attempt to visualize the data we worked with in the last portfolio piece but now it will hopefully be proportioned such that it's a proportion of the total population of that category in the data. Ex: searched men / total men * 100 = true percentage of searched men
+
+```{r}
+table(wsnc_search$not_white)
+```
+```{r}
+table(nc_winston_salem_2020_04_01$not_white)
+
+```
+
+```{r}
+(3197/199175)*100
+not_white_total<-df3[2]
+
+not_white_searched<-df4[2]
+
+
+```
+This number is the percent of white people who were searched. I divided the total amount of searched white people by the total amount of white people who were stopped by police. Below I do the same thing for non white people.
+```{r}
+(6012/253385)*100
+
+df3<-table(nc_winston_salem_2020_04_01$not_white)
+
+white_total<-df3[1]
+
+df4<-table(wsnc_search$not_white)
+
+white_searched<-df4[1]
+```
+
+```{r}
+table(wsnc_search$subject_sex)
+```
+```{r}
+table(nc_winston_salem_2020_04_01$subject_sex)
+```
+
+```{r}
+(1630/184701)*100
+
+df<-table(nc_winston_salem_2020_04_01$subject_sex)
+
+men_total <- df[2]
+
+
+df2<-table(wsnc_search$subject_sex)
+
+men_searched<- df2[2]
+```
+
+```{r}
+(7579/267859)*100
+
+df<-table(nc_winston_salem_2020_04_01$subject_sex)
+
+women_total <- df[1]
+
+df2<-table(wsnc_search$subject_sex)
+
+women_searched<- df2[1]
+```
+I've now created 8 new values (really 12 including the dataframes) that will help me in the calculation and visualization of the true data.
+
+```{r}
+white_percentage_searched <- (white_searched / white_total) * 100
+not_white_percentage_searched <- (not_white_searched/ not_white_total) * 100
+
+men_percentage_searched <- (men_searched / men_total) * 100
+women_percentage_searched <- (women_searched / women_total) * 100
+```
+
+```{r}
+```
+
+
+

@@ -408,6 +408,17 @@ white and female or male.</p>
     y=&quot; Number of Searches&quot;
   )</code></pre>
 <p><img src="p01_files/figure-html/unnamed-chunk-6-1.png" alt="" width="672" /></p>
+<p>In the next portfolio piece, it is my goal to be able to plot in a
+faceted bar plot, the number of searches proportionate to the amount of
+people in each category. This will help visualize the real difference
+between gender and race.</p>
+<div id="heres-portfolio-2" class="section level2">
+<h2>Here’s portfolio 2</h2>
+<p>I’m back. Right now I am going to attempt to visualize the data we
+worked with in the last portfolio piece but now it will hopefully be
+proportioned such that it’s a proportion of the total population of that
+category in the data. Ex: searched men / total men * 100 = true
+percentage of searched men</p>
 <pre class="r"><code>table(wsnc_search$not_white)</code></pre>
 <pre><code>## 
 ## FALSE  TRUE 
@@ -418,12 +429,23 @@ white and female or male.</p>
 ## 199175 253385</code></pre>
 <pre class="r"><code>(3197/199175)*100</code></pre>
 <pre><code>## [1] 1.605121</code></pre>
+<pre class="r"><code>df3&lt;-table(nc_winston_salem_2020_04_01$not_white)
+not_white_total&lt;-df3[2]
+df4&lt;-table(wsnc_search$not_white)
+not_white_searched&lt;-df4[2]</code></pre>
 <p>This number is the percent of white people who were searched. I
 divided the total amount of searched white people by the total amount of
 white people who were stopped by police. Below I do the same thing for
 non white people.</p>
 <pre class="r"><code>(6012/253385)*100</code></pre>
 <pre><code>## [1] 2.372674</code></pre>
+<pre class="r"><code>df3&lt;-table(nc_winston_salem_2020_04_01$not_white)
+
+white_total&lt;-df3[1]
+
+df4&lt;-table(wsnc_search$not_white)
+
+white_searched&lt;-df4[1]</code></pre>
 <pre class="r"><code>table(wsnc_search$subject_sex)</code></pre>
 <pre><code>## 
 ## female   male 
@@ -434,12 +456,48 @@ non white people.</p>
 ## 184701 267859</code></pre>
 <pre class="r"><code>(1630/184701)*100</code></pre>
 <pre><code>## [1] 0.8825074</code></pre>
+<pre class="r"><code>df&lt;-table(nc_winston_salem_2020_04_01$subject_sex)
+
+men_total &lt;- df[2]
+
+
+df2&lt;-table(wsnc_search$subject_sex)
+
+men_searched&lt;- df2[2]</code></pre>
 <pre class="r"><code>(7579/267859)*100</code></pre>
 <pre><code>## [1] 2.829474</code></pre>
+<pre class="r"><code>df&lt;-table(nc_winston_salem_2020_04_01$subject_sex)
+
+women_total &lt;- df[1]
+
+df2&lt;-table(wsnc_search$subject_sex)
+
+women_searched&lt;- df2[1]</code></pre>
+<pre class="r"><code>rm(women_stopped)</code></pre>
+<pre><code>## Warning in rm(women_stopped): object &#39;women_stopped&#39; not found</code></pre>
+<pre class="r"><code>rm(men_stopped)</code></pre>
+<pre><code>## Warning in rm(men_stopped): object &#39;men_stopped&#39; not found</code></pre>
+<pre class="r"><code>(men_searched/men_total)*100</code></pre>
+<pre><code>##     male 
+## 2.829474</code></pre>
+<pre class="r"><code>(women_searched/women_total)*100</code></pre>
+<pre><code>##    female 
+## 0.8825074</code></pre>
+<pre class="r"><code>glimpse(nc_winston_salem_2020_04_01$location)</code></pre>
+<pre><code>##  chr [1:452560] &quot;Unknown&quot; &quot;Unknown&quot; &quot;Unknown&quot; &quot;Unknown&quot; &quot;Unknown&quot; &quot;Unknown&quot; ...</code></pre>
 <p>In the next portfolio piece, it is my goal to be able to plot in a
 faceted bar plot, the number of searches proportionate to the amount of
 people in each category. This will help visualize the real difference
 between gender and race.</p>
+<p>I’ve now created 8 new values (really 12 including the dataframes)
+that will help me in the calculation and visualization of the true
+data.</p>
+<pre class="r"><code>white_percentage_searched &lt;- (white_searched / white_total) * 100
+not_white_percentage_searched &lt;- (not_white_searched/ not_white_total) * 100
+
+men_percentage_searched &lt;- (men_searched / men_total) * 100
+women_percentage_searched &lt;- (women_searched / women_total) * 100</code></pre>
+</div>
 
 
 
