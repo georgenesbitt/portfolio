@@ -11,7 +11,7 @@
 
 
 
-<title>Portfolio 1</title>
+<title>Portfolio 1&amp;2</title>
 
 <script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -290,7 +290,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Portfolio 1</h1>
+<h1 class="title toc-ignore">Portfolio 1&amp;2</h1>
 
 </div>
 
@@ -323,6 +323,8 @@ nc_winston_salem_2020_04_01 &lt;- read_csv(&quot;nc_winston-salem_2020_04_01.csv
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div id="portfolio-1" class="section level2">
+<h2>Portfolio 1</h2>
 <p>The data in this set contains crime numbers and statistics from
 Winston-Salem between the years 2000 and 2015.</p>
 <p>The goal of this portfolio piece is to create plots that will
@@ -412,13 +414,16 @@ white and female or male.</p>
 faceted bar plot, the number of searches proportionate to the amount of
 people in each category. This will help visualize the real difference
 between gender and race.</p>
-<div id="heres-portfolio-2" class="section level2">
-<h2>Here’s portfolio 2</h2>
-<p>I’m back. Right now I am going to attempt to visualize the data we
-worked with in the last portfolio piece but now it will hopefully be
+</div>
+<div id="portfolio-2" class="section level2">
+<h2>Portfolio 2</h2>
+<p>I’m back. In this portfolio piece I am going to attempt to visualize
+the data we worked with in the last one, but now it will hopefully be
 proportioned such that it’s a proportion of the total population of that
 category in the data. Ex: searched men / total men * 100 = true
 percentage of searched men</p>
+<p>Below I am creating new values so that it’s easier to manipulate the
+dating using the calculated proportion.</p>
 <pre class="r"><code>table(wsnc_search$not_white)</code></pre>
 <pre><code>## 
 ## FALSE  TRUE 

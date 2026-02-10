@@ -1,5 +1,5 @@
 ---
-title: "Portfolio 1"
+title: "Portfolio 1&2"
 ---
 
 > The projects should be numbered consecutively (i.e., in the order in which you began them), and should include for each project a description of the goal, the product (computer program, hand graph, computer graph, etc.), the data, and some interpretation. Reports must be reproducible and of high quality in terms of writing, grammar, presentation, etc.
@@ -16,7 +16,7 @@ library(readr)
 nc_winston_salem_2020_04_01 <- read_csv("nc_winston-salem_2020_04_01.csv")
 
 ```
-
+## Portfolio 1
 The data in this set contains crime numbers and statistics from Winston-Salem between the years 2000 and 2015.
 
 The goal of this portfolio piece is to create plots that will visualize data contrasting the gender and race in regards to the amount of searches conducted. Although in this portfolio, I will not be able to make a judgment about whether discrimination exists because I will not be creating a plot nor run statistical tests in regards to the data proportional to the population.
@@ -84,9 +84,11 @@ In the next portfolio piece, it is my goal to be able to plot in a faceted bar p
 
 
 
-## Here's portfolio 2 
+## Portfolio 2 
 
-I'm back. Right now I am going to attempt to visualize the data we worked with in the last portfolio piece but now it will hopefully be proportioned such that it's a proportion of the total population of that category in the data. Ex: searched men / total men * 100 = true percentage of searched men
+I'm back. In this portfolio piece I am going to attempt to visualize the data we worked with in the last one, but now it will hopefully be proportioned such that it's a proportion of the total population of that category in the data. Ex: searched men / total men * 100 = true percentage of searched men
+
+Below I am creating new values so that it's easier to manipulate the dating using the calculated proportion.
 
 ```{r}
 table(wsnc_search$not_white)
