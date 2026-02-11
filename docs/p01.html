@@ -502,6 +502,24 @@ not_white_percentage_searched &lt;- (not_white_searched/ not_white_total) * 100
 
 men_percentage_searched &lt;- (men_searched / men_total) * 100
 women_percentage_searched &lt;- (women_searched / women_total) * 100</code></pre>
+<pre class="r"><code>searched_per_df &lt;- data.frame(
+  group= c(&quot;Men&quot;, &quot;Women&quot;, &quot;Not White&quot;, &quot;White&quot;),
+  percentage_searched = c(men_percentage_searched,
+  women_percentage_searched,
+  not_white_percentage_searched,
+  white_percentage_searched)
+)</code></pre>
+<p>Here, I’ve created a data frame so that all the values that I created
+above are together and they are easier to plot. Next I will plot them
+together.</p>
+<pre class="r"><code>ggplot(searched_per_df, aes(x=group,
+                            y= percentage_searched)) + geom_col()+ 
+  labs(title=&quot;Percentage of Detainees Searched by Group&quot;,
+       x = &quot;group&quot;,
+       y= &quot;Percentage Searched&quot;) + ylim(0,5)</code></pre>
+<p><img src="p01_files/figure-html/unnamed-chunk-20-1.png" alt="" width="672" /></p>
+<p>Above is the bar plot showcasing them all side by side in order
+descending by highest percentage to lowest percentage.</p>
 </div>
 
 
