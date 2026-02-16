@@ -27,7 +27,7 @@ class(olymp_data)
 df <- olymp_data$schedule
 ```
 
-For this data set I am going to visualize the spread of medal matches over the course of the Olympic schedule.
+For this data set I am going to visualize the spread of medal matches over the course of the Olympic schedule. This data comes from a previous Tidy Tuesday dataset from the 2026 Milan-Cortina Olympics. 
 
 To do this I am first going to create a data frame and filter out all the non medal events. 
 
@@ -41,7 +41,7 @@ glimpse(olymp_medal_events)
 Above I have filtered all the non medal events out of this set. It appears there are 344 medal events. This likely includes all medal races and in team events, a bronze medal match (hockey for example has a gold and silver event and a bronze event)
 
 
-Next, I will plot all of the 
+Next, I will plot all of the gold medals on a singular plane as a timeline.  
 
 ```{r}
 ggplot(olymp_medal_events, aes(x= start_datetime_local, y=0)) +

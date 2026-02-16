@@ -351,7 +351,8 @@ and of high quality in terms of writing, grammar, presentation, etc.</p>
 <pre><code>## [1] &quot;tt_data&quot;</code></pre>
 <pre class="r"><code>df &lt;- olymp_data$schedule</code></pre>
 <p>For this data set I am going to visualize the spread of medal matches
-over the course of the Olympic schedule.</p>
+over the course of the Olympic schedule. This data comes from a previous
+Tidy Tuesday dataset from the 2026 Milan-Cortina Olympics.</p>
 <p>To do this I am first going to create a data frame and filter out all
 the non medal events.</p>
 <pre class="r"><code>olymp_medal_events &lt;- df %&gt;%
@@ -384,7 +385,8 @@ the non medal events.</p>
 appears there are 344 medal events. This likely includes all medal races
 and in team events, a bronze medal match (hockey for example has a gold
 and silver event and a bronze event)</p>
-<p>Next, I will plot all of the</p>
+<p>Next, I will plot all of the gold medals on a singular plane as a
+timeline.</p>
 <pre class="r"><code>ggplot(olymp_medal_events, aes(x= start_datetime_local, y=0)) +
   geom_point(size=.01) + 
   labs(
