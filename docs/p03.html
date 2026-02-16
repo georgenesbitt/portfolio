@@ -302,6 +302,115 @@ of the goal, the product (computer program, hand graph, computer graph,
 etc.), the data, and some interpretation. Reports must be reproducible
 and of high quality in terms of writing, grammar, presentation, etc.</p>
 </blockquote>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.6
+## ✔ forcats   1.0.1     ✔ stringr   1.6.0
+## ✔ ggplot2   4.0.1     ✔ tibble    3.3.1
+## ✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+## ✔ purrr     1.2.1     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>library(tidytuesdayR)</code></pre>
+<pre class="r"><code>tt_datasets(2026)</code></pre>
+<pre><code>##   Week       Date                                              Data
+## 1    1 2026-01-06                    Bring your own data from 2025!
+## 2    2 2026-01-13                           The Languages of Africa
+## 3    3 2026-01-20       Astronomy Picture of the Day (APOD) Archive
+## 4    4 2026-01-27                               Brazilian Companies
+## 5    5 2026-02-03                            Edible Plants Database
+## 6    6 2026-02-10                         The 2026 Winter Olympics!
+## 7    7 2026-02-17 Agricultural Production Statistics in New Zealand
+##                                     Source
+## 1                                     &lt;NA&gt;
+## 2                      Languages of Africa
+## 3                                 NASA API
+## 4           Open data CNPJ - December 2025
+## 5                    Edible Plant Database
+## 6 Milano-Cortina 2026 Winter Olympics Data
+## 7                                Figure.NZ
+##                                           Article
+## 1                                            &lt;NA&gt;
+## 2                             Languages of Africa
+## 3                    Astronomy Picture of the Day
+## 4 Wikipedia&#39;s List of largest Brazilian companies
+## 5                                GROW Observatory
+## 6                   Olympics Schedule and Results
+## 7    Gap between people and sheep rapidly closing</code></pre>
+<pre class="r"><code>olymp_data &lt;- tt_load(&quot;2026-02-10&quot;)</code></pre>
+<pre><code>## ---- Compiling #TidyTuesday Information for 2026-02-10 ----
+## --- There is 1 file available ---
+## 
+## 
+## ── Downloading files ───────────────────────────────────────────────────────────
+## 
+##   1 of 1: &quot;schedule.csv&quot;</code></pre>
+<pre class="r"><code>class(olymp_data)</code></pre>
+<pre><code>## [1] &quot;tt_data&quot;</code></pre>
+<pre class="r"><code>df &lt;- olymp_data$schedule</code></pre>
+<p>For this data set I am going to visualize the spread of medal matches
+over the course of the Olympic schedule.</p>
+<p>To do this I am first going to create a data frame and filter out all
+the non medal events.</p>
+<pre class="r"><code>olymp_medal_events &lt;- df %&gt;%
+  filter(is_medal_event == TRUE)</code></pre>
+<pre class="r"><code>glimpse(olymp_medal_events)</code></pre>
+<pre><code>## Rows: 344
+## Columns: 21
+## $ date                 &lt;date&gt; 2026-02-06, 2026-02-06, 2026-02-06, 2026-02-06, …
+## $ discipline_code      &lt;chr&gt; &quot;ALP&quot;, &quot;CCS&quot;, &quot;SJP&quot;, &quot;SBD&quot;, &quot;SSK&quot;, &quot;ALP&quot;, &quot;ALP&quot;, …
+## $ discipline_name      &lt;chr&gt; &quot;Alpine Skiing&quot;, &quot;Cross-Country Skiing&quot;, &quot;Ski Jum…
+## $ event_code           &lt;chr&gt; &quot;ALPMDH----------------FNL-000100--&quot;, &quot;CCSWSKIATH…
+## $ event_description    &lt;chr&gt; &quot;Men&#39;s Downhill&quot;, &quot;Women&#39;s 10km + 10km Skiathlon&quot;…
+## $ start_datetime_local &lt;dttm&gt; 2026-02-07 11:30:00, 2026-02-07 13:00:00, 2026-0…
+## $ end_datetime_local   &lt;dttm&gt; 2026-02-07 13:30:00, 2026-02-07 14:30:00, 2026-0…
+## $ start_datetime_utc   &lt;dttm&gt; 2026-02-07 10:30:00, 2026-02-07 12:00:00, 2026-0…
+## $ end_datetime_utc     &lt;dttm&gt; 2026-02-07 12:30:00, 2026-02-07 13:30:00, 2026-0…
+## $ is_medal_event       &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, T…
+## $ is_training          &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+## $ venue_code           &lt;chr&gt; &quot;SSC&quot;, &quot;TCC&quot;, &quot;PSJ&quot;, &quot;LSP&quot;, &quot;MSS&quot;, &quot;SSC&quot;, NA, &quot;AB…
+## $ venue_name           &lt;chr&gt; &quot;Stelvio Ski Centre&quot;, &quot;Tesero Cross-Country Skiin…
+## $ venue_slug           &lt;chr&gt; &quot;stelvio-ski-centre&quot;, &quot;tesero-cross-country-skiin…
+## $ location_name        &lt;chr&gt; &quot;Stelvio Ski Centre-ALP Course&quot;, &quot;Tesero Cross-Co…
+## $ location_code        &lt;chr&gt; &quot;SAL&quot;, &quot;TCC&quot;, &quot;PNH&quot;, &quot;LBA&quot;, &quot;MSS&quot;, &quot;SAL&quot;, &quot;CAL&quot;, …
+## $ session_code         &lt;chr&gt; &quot;OALP01&quot;, &quot;OCCS01&quot;, &quot;OSJP01&quot;, &quot;OSBD02&quot;, &quot;OSSK01&quot;,…
+## $ estimated_start      &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+## $ day_of_week          &lt;chr&gt; &quot;Friday&quot;, &quot;Friday&quot;, &quot;Friday&quot;, &quot;Friday&quot;, &quot;Friday&quot;,…
+## $ start_time           &lt;time&gt; 11:30:00, 13:00:00, 19:57:00, 20:17:00, 16:00:00…
+## $ end_time             &lt;time&gt; 13:30:00, 14:30:00, 20:35:00, 20:37:00, 17:21:00…</code></pre>
+<p>Above I have filtered all the non medal events out of this set. It
+appears there are 344 medal events. This likely includes all medal races
+and in team events, a bronze medal match (hockey for example has a gold
+and silver event and a bronze event)</p>
+<p>Next, I will plot all of the</p>
+<pre class="r"><code>ggplot(olymp_medal_events, aes(x= start_datetime_local, y=0)) +
+  geom_point(size=.01) + 
+  labs(
+    title= &quot;Timeline of 2026 Winter Olympic Medal Events&quot;,
+    x= &quot;Timeline&quot;
+  ) +
+  scale_x_datetime(date_breaks = &quot;1 day&quot;, date_labels = &quot;%b %d&quot;)</code></pre>
+<p><img src="p03_files/figure-html/unnamed-chunk-9-1.png" alt="" width="672" /></p>
+<p>Next, I will make a bar plot simply denoting the day, not the time to
+see day by day which day has the most amount of medal matches.</p>
+<pre class="r"><code>ggplot(olymp_medal_events, aes(x=date)) +
+  geom_bar() +
+  labs(
+    title=&quot;Medal Events per Day in 2026 Winter Olympics&quot;,
+    x= &quot;Day&quot;
+  ) + scale_x_datetime(date_breaks = &quot;1 day&quot;, date_labels = &quot;%b %d&quot;) + scale_y_continuous(breaks = seq(0, max(table(olymp_medal_events$date)), by = 1))</code></pre>
+<p><img src="p03_files/figure-html/unnamed-chunk-10-1.png" alt="" width="672" /></p>
+<pre class="r"><code>count(olymp_medal_events)</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##       n
+##   &lt;int&gt;
+## 1   344</code></pre>
+<p>Above, I have done two things. First, I have created a (small albeit)
+timeline of medal events given time and date along a singular plane. In
+addition, I’ve created a bar plot showing the specific amount of gold
+medal events per day.</p>
 
 
 

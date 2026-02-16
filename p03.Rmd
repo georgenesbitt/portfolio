@@ -3,3 +3,70 @@ title: "Portfolio 3"
 ---
 
 > The projects should be numbered consecutively (i.e., in the order in which you began them), and should include for each project a description of the goal, the product (computer program, hand graph, computer graph, etc.), the data, and some interpretation. Reports must be reproducible and of high quality in terms of writing, grammar, presentation, etc.
+
+```{r}
+library(tidyverse)
+
+```
+
+
+```{r}
+library(tidytuesdayR)
+```
+```{r}
+tt_datasets(2026)
+```
+```{r}
+olymp_data <- tt_load("2026-02-10")
+```
+
+```{r}
+class(olymp_data)
+```
+```{r}
+df <- olymp_data$schedule
+```
+
+For this data set I am going to visualize the spread of medal matches over the course of the Olympic schedule.
+
+To do this I am first going to create a data frame and filter out all the non medal events. 
+
+```{r}
+olymp_medal_events <- df %>%
+  filter(is_medal_event == TRUE)
+```
+```{r}
+glimpse(olymp_medal_events)
+```
+Above I have filtered all the non medal events out of this set. It appears there are 344 medal events. This likely includes all medal races and in team events, a bronze medal match (hockey for example has a gold and silver event and a bronze event)
+
+
+Next, I will plot all of the 
+
+```{r}
+ggplot(olymp_medal_events, aes(x= start_datetime_local, y=0)) +
+  geom_point(size=.01) + 
+  labs(
+    title= "Timeline of 2026 Winter Olympic Medal Events",
+    x= "Timeline"
+  ) +
+  scale_x_datetime(date_breaks = "1 day", date_labels = "%b %d")
+```
+
+Next, I will make a bar plot simply denoting the day, not the time to see day by day which day has the most amount of medal matches. 
+
+
+```{r}
+ggplot(olymp_medal_events, aes(x=date)) +
+  geom_bar() +
+  labs(
+    title="Medal Events per Day in 2026 Winter Olympics",
+    x= "Day"
+  ) + scale_x_datetime(date_breaks = "1 day", date_labels = "%b %d") + scale_y_continuous(breaks = seq(0, max(table(olymp_medal_events$date)), by = 1))
+
+```
+```{r}
+count(olymp_medal_events)
+```
+
+Above, I have done two things. First, I have created a (small albeit) timeline of medal events given time and date along a singular plane. In addition, I've created a bar plot showing the specific amount of gold medal events per day. 
