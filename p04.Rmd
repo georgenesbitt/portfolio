@@ -2,4 +2,60 @@
 title: "Portfolio 4"
 ---
 
-> The projects should be numbered consecutively (i.e., in the order in which you began them), and should include for each project a description of the goal, the product (computer program, hand graph, computer graph, etc.), the data, and some interpretation. Reports must be reproducible and of high quality in terms of writing, grammar, presentation, etc.
+```{r}
+tuesdata <- tidytuesdayR::tt_load('2026-01-13')
+library(dplyr)
+library(tidyverse) 
+library(dsbox)
+library(mosaicData) 
+africa <- tuesdata$africa
+```
+```{r}
+glimpse(africa)
+```
+This data set contains a large list of of all of the languages spoken in each country in Africa. I am going to organize this data and then answer a few questions including which country in Africa has the largest number of languages and which languages cut across multiple countries and 
+```{r}
+africa2 <- africa %>%
+  group_by(language, family, native_speakers) %>% summarise(num_countries = n_distinct(country))
+```
+```{r}
+glimpse(africa2)
+```
+
+now that i have filtered all the duplicates that exist in different countries out of the dataset, there are still 510 different unique languages that exist in africa. That is too many to put along the x axis in a graph, however I can use num_countries variable as the x and the count of countries that apply in the y as shown below
+
+```{r}
+africa2 %>%
+  ggplot(aes(x=num_countries, fill=family)) +
+  geom_bar() +
+  labs(
+    title = "Languages by number of countries spoken in",
+    x= "Number of Countries spoken in",
+    y= "Number of Languages"
+  ) + scale_x_continuous(breaks=1:max(africa2$num_countries))
+  
+```
+it appears in this graph that most languages only exist in one country, however there is one language spoken in 10 and one in 12. Let's figure out what those two languages are.
+
+```{r}
+africa2 %>% filter(num_countries ==12)
+africa2 %>% filter(num_countries ==10)
+```
+Arabic is spoken in 12 countries and Falani is spoken in 10 countries.
+Below are all the languages that are spoken in one or less countries. 
+
+```{r}
+africa2 %>% filter(num_countries >=2)
+```
+Here I am going to attempt to visualize the relationship between active speakers and number of languages to see if there is a positive relationship there. 
+```{r}
+africa2%>%
+  ggplot(aes(x=num_countries, y=native_speakers)) +
+  geom_point() +
+  labs(
+    title = "Languages by span of countries and native speakers",
+    x= "number of countries",
+    y= "native speakers"
+  )
+```
+
