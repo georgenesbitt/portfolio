@@ -295,13 +295,208 @@ $(document).ready(function () {
 </div>
 
 
-<blockquote>
-<p>The projects should be numbered consecutively (i.e., in the order in
-which you began them), and should include for each project a description
-of the goal, the product (computer program, hand graph, computer graph,
-etc.), the data, and some interpretation. Reports must be reproducible
-and of high quality in terms of writing, grammar, presentation, etc.</p>
-</blockquote>
+<p>The data set I am using has a list of all the edible plants known in
+the world.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.6
+## ✔ forcats   1.0.1     ✔ stringr   1.6.0
+## ✔ ggplot2   4.0.1     ✔ tibble    3.3.1
+## ✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+## ✔ purrr     1.2.1     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre class="r"><code>library(tidytuesdayR)</code></pre>
+<pre class="r"><code>tt_datasets(2026)</code></pre>
+<pre><code>##   Week       Date                                              Data
+## 1    1 2026-01-06                    Bring your own data from 2025!
+## 2    2 2026-01-13                           The Languages of Africa
+## 3    3 2026-01-20       Astronomy Picture of the Day (APOD) Archive
+## 4    4 2026-01-27                               Brazilian Companies
+## 5    5 2026-02-03                            Edible Plants Database
+## 6    6 2026-02-10                         The 2026 Winter Olympics!
+## 7    7 2026-02-17 Agricultural Production Statistics in New Zealand
+## 8    8 2026-02-24     Science Foundation Ireland Grants Commitments
+##                                                     Source
+## 1                                                     &lt;NA&gt;
+## 2                                      Languages of Africa
+## 3                                                 NASA API
+## 4                           Open data CNPJ - December 2025
+## 5                                    Edible Plant Database
+## 6                 Milano-Cortina 2026 Winter Olympics Data
+## 7                                                Figure.NZ
+## 8 Science Foundation Ireland Historical Grants Commitments
+##                                                    Article
+## 1                                                     &lt;NA&gt;
+## 2                                      Languages of Africa
+## 3                             Astronomy Picture of the Day
+## 4          Wikipedia&#39;s List of largest Brazilian companies
+## 5                                         GROW Observatory
+## 6                            Olympics Schedule and Results
+## 7             Gap between people and sheep rapidly closing
+## 8 Science Foundation Ireland Historical Grants Commitments</code></pre>
+<pre class="r"><code>plants&lt;-tt_load(&quot;2026-02-03&quot;)</code></pre>
+<pre><code>## ---- Compiling #TidyTuesday Information for 2026-02-03 ----
+## --- There is 1 file available ---
+## 
+## 
+## ── Downloading files ───────────────────────────────────────────────────────────
+## 
+##   1 of 1: &quot;edible_plants.csv&quot;</code></pre>
+<pre class="r"><code>plantsp5 &lt;- plants$edible_plants
+
+glimpse(plantsp5)</code></pre>
+<pre><code>## Rows: 140
+## Columns: 20
+## $ taxonomic_name          &lt;chr&gt; &quot;Pisum sativum&quot;, &quot;Phaseolus coccineus&quot;, &quot;Phase…
+## $ common_name             &lt;chr&gt; &quot;Pea&quot;, &quot;Beans (Runner)&quot;, &quot;Beans (French)&quot;, &quot;Be…
+## $ cultivation             &lt;chr&gt; &quot;Legume&quot;, &quot;Legume&quot;, &quot;Legume&quot;, &quot;Legume&quot;, &quot;Legum…
+## $ sunlight                &lt;chr&gt; &quot;Full sun&quot;, &quot;Full sun&quot;, &quot;Full sun&quot;, &quot;Full sun/…
+## $ water                   &lt;chr&gt; &quot;Very High&quot;, &quot;Medium&quot;, &quot;Medium&quot;, &quot;Very Low&quot;, &quot;…
+## $ preferred_ph_lower      &lt;dbl&gt; 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 5.5, 6.0, 5…
+## $ preferred_ph_upper      &lt;dbl&gt; 7.5, 6.8, 7.5, 7.0, 7.5, 7.5, 7.5, 7.5, 7.5, 7…
+## $ nutrients               &lt;chr&gt; &quot;Medium&quot;, &quot;Medium&quot;, &quot;Medium&quot;, &quot;Medium&quot;, &quot;High&quot;…
+## $ soil                    &lt;chr&gt; &quot;Loamy&quot;, &quot;Loamy and clay&quot;, &quot;Any well-drained a…
+## $ season                  &lt;chr&gt; &quot;Annual&quot;, &quot;Annual&quot;, &quot;Annual&quot;, &quot;Annual&quot;, &quot;bienn…
+## $ temperature_class       &lt;chr&gt; &quot;Half hardy&quot;, &quot;Tender&quot;, &quot;Tender&quot;, &quot;Hardy&quot;, &quot;Ha…
+## $ temperature_germination &lt;chr&gt; &quot;24&quot;, &quot;26&quot;, &quot;26&quot;, &quot;10&quot;, &quot;26&quot;, &quot;30&quot;, &quot;26&quot;, &quot;26&quot;…
+## $ temperature_growing     &lt;chr&gt; &quot;4-24&quot;, &quot;16-30&quot;, &quot;16-30&quot;, &quot;8-15&quot;, &quot;7-30&quot;, &quot;7-3…
+## $ days_germination        &lt;chr&gt; &quot;6&quot;, &quot;7&quot;, &quot;7&quot;, &quot;7&quot;, &quot;4&quot;, &quot;4&quot;, &quot;4&quot;, &quot;5&quot;, &quot;4&quot;, &quot;…
+## $ days_harvest            &lt;chr&gt; &quot;55-75&quot;, &quot;65-85&quot;, &quot;40-55&quot;, &quot;85-115&quot;, &quot;55-85&quot;, …
+## $ nutritional_info        &lt;chr&gt; &quot;A good source of vitamin K, manganese, and di…
+## $ energy                  &lt;dbl&gt; 80, 27, 27, 88, 25, 34, 35, 31, 50, NA, NA, NA…
+## $ sensitivities           &lt;chr&gt; &quot;Drought intolerant&quot;, &quot;Drought intolerant&quot;, &quot;D…
+## $ description             &lt;chr&gt; &quot;The pea is the small spherical seed, or the s…
+## $ requirements            &lt;chr&gt; &quot;Require a sunny, nutrient-rich, moisture-rete…</code></pre>
+<p>I am going to be visualizing different relationships between
+different variables. In this portfolio, I will create three
+visualizations between different variables. Those relationships will be
+sunlight and water (to test if more sunlight needed=more water needed),
+temperature germination and days germination and soil and water to see
+if there is a correlation between different types of soil and water
+necessity.</p>
+<pre class="r"><code>plantsp5$water</code></pre>
+<pre><code>##   [1] &quot;Very High&quot; &quot;Medium&quot;    &quot;Medium&quot;    &quot;Very Low&quot;  &quot;High&quot;      &quot;Medium&quot;   
+##   [7] &quot;Medium&quot;    &quot;Medium&quot;    &quot;Low&quot;       &quot;Medium&quot;    &quot;Medium&quot;    &quot;High&quot;     
+##  [13] &quot;High&quot;      &quot;Medium&quot;    &quot;High&quot;      &quot;High&quot;      &quot;High&quot;      &quot;Low&quot;      
+##  [19] &quot;Medium&quot;    &quot;Medium&quot;    &quot;Low&quot;       &quot;Medium&quot;    &quot;very high&quot; &quot;Medium&quot;   
+##  [25] &quot;Medium&quot;    &quot;High&quot;      &quot;High&quot;      &quot;High&quot;      &quot;High&quot;      &quot;High&quot;     
+##  [31] &quot;High&quot;      &quot;High&quot;      &quot;Medium&quot;    &quot;High&quot;      &quot;High&quot;      &quot;Medium&quot;   
+##  [37] &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;High&quot;     
+##  [43] &quot;Medium&quot;    &quot;Medium&quot;    &quot;High&quot;      &quot;High&quot;      &quot;High&quot;      &quot;Medium&quot;   
+##  [49] &quot;Medium&quot;    &quot;High&quot;      &quot;Medium&quot;    &quot;High&quot;      &quot;Medium&quot;    &quot;Medium&quot;   
+##  [55] &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;   
+##  [61] &quot;Low&quot;       &quot;Low&quot;       &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;   
+##  [67] &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;   
+##  [73] &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;   
+##  [79] &quot;High&quot;      &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Very low&quot; 
+##  [85] &quot;Low&quot;       &quot;high&quot;      &quot;Low&quot;       &quot;Medium&quot;    &quot;Medium&quot;    &quot;Low&quot;      
+##  [91] &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;   
+##  [97] &quot;Medium&quot;    &quot;High&quot;      &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;   
+## [103] &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;   
+## [109] &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;   
+## [115] &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;   
+## [121] &quot;Medium&quot;    &quot;Low&quot;       &quot;Low&quot;       &quot;Medium&quot;    &quot;Medium&quot;    &quot;Medium&quot;   
+## [127] &quot;Medium&quot;    &quot;Low&quot;       &quot;Low&quot;       &quot;Medium&quot;    &quot;High&quot;      &quot;Low&quot;      
+## [133] &quot;Low&quot;       &quot;Low&quot;       &quot;Medium&quot;    &quot;Low&quot;       &quot;Low&quot;       &quot;Low&quot;      
+## [139] &quot;Medium&quot;    &quot;Medium&quot;</code></pre>
+<p>First, I’ll visualize the sunlight and water levels, but to do this,
+I am going to categorize the levels of water needed in numbers
+increasing by amount 1-</p>
+<pre class="r"><code>plantsp5 &lt;- plantsp5 %&gt;%
+  mutate(
+    waternumber = case_when(
+      water == &quot;Very High&quot; ~ &quot;5 (Very High)&quot;,
+      water == &quot;very high&quot; ~ &quot;5 (Very High)&quot;,
+
+      water == &quot;High&quot; ~ &quot;4 (High)&quot;,
+      water == &quot;high&quot; ~ &quot;4 (High)&quot;,
+
+      water == &quot;Medium&quot; ~ &quot;3 (Medium)&quot;,
+      water == &quot;medium&quot; ~ &quot;3 (Medium)&quot;,
+
+      water == &quot;Low&quot; ~ &quot;2 (Low)&quot;,
+      water == &quot;low&quot; ~ &quot;2 (Low)&quot;,
+
+      water == &quot;Very Low&quot; ~ &quot;1 (Very Low)&quot;,
+      water == &quot;Very low&quot; ~ &quot;1 (Very Low)&quot;
+    )
+  )</code></pre>
+<pre class="r"><code>plantsp5$waternumber</code></pre>
+<pre><code>##   [1] &quot;5 (Very High)&quot; &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;1 (Very Low)&quot; 
+##   [5] &quot;4 (High)&quot;      &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;   
+##   [9] &quot;2 (Low)&quot;       &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;4 (High)&quot;     
+##  [13] &quot;4 (High)&quot;      &quot;3 (Medium)&quot;    &quot;4 (High)&quot;      &quot;4 (High)&quot;     
+##  [17] &quot;4 (High)&quot;      &quot;2 (Low)&quot;       &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;   
+##  [21] &quot;2 (Low)&quot;       &quot;3 (Medium)&quot;    &quot;5 (Very High)&quot; &quot;3 (Medium)&quot;   
+##  [25] &quot;3 (Medium)&quot;    &quot;4 (High)&quot;      &quot;4 (High)&quot;      &quot;4 (High)&quot;     
+##  [29] &quot;4 (High)&quot;      &quot;4 (High)&quot;      &quot;4 (High)&quot;      &quot;4 (High)&quot;     
+##  [33] &quot;3 (Medium)&quot;    &quot;4 (High)&quot;      &quot;4 (High)&quot;      &quot;3 (Medium)&quot;   
+##  [37] &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;   
+##  [41] &quot;3 (Medium)&quot;    &quot;4 (High)&quot;      &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;   
+##  [45] &quot;4 (High)&quot;      &quot;4 (High)&quot;      &quot;4 (High)&quot;      &quot;3 (Medium)&quot;   
+##  [49] &quot;3 (Medium)&quot;    &quot;4 (High)&quot;      &quot;3 (Medium)&quot;    &quot;4 (High)&quot;     
+##  [53] &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;   
+##  [57] &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;   
+##  [61] &quot;2 (Low)&quot;       &quot;2 (Low)&quot;       &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;   
+##  [65] &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;   
+##  [69] &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;   
+##  [73] &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;   
+##  [77] &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;4 (High)&quot;      &quot;3 (Medium)&quot;   
+##  [81] &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;1 (Very Low)&quot; 
+##  [85] &quot;2 (Low)&quot;       &quot;4 (High)&quot;      &quot;2 (Low)&quot;       &quot;3 (Medium)&quot;   
+##  [89] &quot;3 (Medium)&quot;    &quot;2 (Low)&quot;       &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;   
+##  [93] &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;   
+##  [97] &quot;3 (Medium)&quot;    &quot;4 (High)&quot;      &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;   
+## [101] &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;   
+## [105] &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;   
+## [109] &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;   
+## [113] &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;   
+## [117] &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;   
+## [121] &quot;3 (Medium)&quot;    &quot;2 (Low)&quot;       &quot;2 (Low)&quot;       &quot;3 (Medium)&quot;   
+## [125] &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;    &quot;2 (Low)&quot;      
+## [129] &quot;2 (Low)&quot;       &quot;3 (Medium)&quot;    &quot;4 (High)&quot;      &quot;2 (Low)&quot;      
+## [133] &quot;2 (Low)&quot;       &quot;2 (Low)&quot;       &quot;3 (Medium)&quot;    &quot;2 (Low)&quot;      
+## [137] &quot;2 (Low)&quot;       &quot;2 (Low)&quot;       &quot;3 (Medium)&quot;    &quot;3 (Medium)&quot;</code></pre>
+<pre class="r"><code>plantsp5 &lt;- plantsp5 %&gt;%
+  mutate(sunlight=tolower(sunlight))</code></pre>
+<pre class="r"><code>plantsp5 &lt;- plantsp5 %&gt;%
+  mutate(
+    sunlight = recode(
+      sunlight,
+      &quot;full sun/partial shade/full shade&quot; = &quot;full sun/partial shade/ full shade&quot;))</code></pre>
+<pre class="r"><code>plantsp5 %&gt;%
+  ggplot(aes(x = sunlight, fill = factor(waternumber))) +
+  geom_bar(position = &quot;stack&quot;) +
+  labs(
+    x = &quot;Sunlight Required&quot;,
+    y = &quot;Count&quot;,
+    fill = &quot;Water Level&quot;
+  )</code></pre>
+<p><img src="p05_files/figure-html/unnamed-chunk-11-1.png" alt="" width="672" />
+This tells us a lot about each category. The data doesn’t look very
+convinceing that there is a correlation between overall sunlight
+requirement and water requirement. I do however think this data isn’t
+exactly the best at categorizing it’s data. I had to do a lot of work
+above to combine/even out categories and I think that there should be a
+more numerical way of categorizing some of the sunlight/water level
+statistics. This would make it much easier to analyze (min rainfall per
+year required, min sunny days per year required etc.)</p>
+<p>Next I will visualize temperature germination and days
+germination</p>
+<pre class="r"><code>plantsp5 %&gt;%
+  ggplot(aes(x=days_germination, y=temperature_germination)) + 
+  geom_point() + geom_smooth(method=&quot;lm&quot;) +
+  labs(
+    x= &quot;    Optimal germination temperature (Celsius)&quot;,
+    y= &quot;Days to germination at optimum temperature&quot;,
+    title = &quot;Germination time (days) by optimal germination temperature&quot;
+  )</code></pre>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="p05_files/figure-html/unnamed-chunk-12-1.png" alt="" width="672" /></p>
 
 
 

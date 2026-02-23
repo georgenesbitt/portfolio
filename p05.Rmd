@@ -2,4 +2,95 @@
 title: "Portfolio 5"
 ---
 
-> The projects should be numbered consecutively (i.e., in the order in which you began them), and should include for each project a description of the goal, the product (computer program, hand graph, computer graph, etc.), the data, and some interpretation. Reports must be reproducible and of high quality in terms of writing, grammar, presentation, etc.
+The data set I am using has a list of all the edible plants known in the world. 
+
+```{r}
+library(tidyverse)
+library(dplyr)
+```
+
+
+```{r}
+library(tidytuesdayR)
+```
+```{r}
+tt_datasets(2026)
+```
+```{r}
+plants<-tt_load("2026-02-03")
+```
+
+```{r}
+plantsp5 <- plants$edible_plants
+
+glimpse(plantsp5)
+```
+I am going to be visualizing different relationships between different variables. In this portfolio, I will create three visualizations between different variables. Those relationships will be sunlight and water (to test if more sunlight needed=more water needed), temperature germination and days germination and soil and water to see if there is a correlation between different types of soil and water necessity. 
+
+```{r}
+plantsp5$water
+```
+
+First, I'll visualize the sunlight and water levels, but to do this, I am going to categorize the levels of water needed in numbers increasing by amount 1- 
+
+```{r}
+plantsp5 <- plantsp5 %>%
+  mutate(
+    waternumber = case_when(
+      water == "Very High" ~ "5 (Very High)",
+      water == "very high" ~ "5 (Very High)",
+
+      water == "High" ~ "4 (High)",
+      water == "high" ~ "4 (High)",
+
+      water == "Medium" ~ "3 (Medium)",
+      water == "medium" ~ "3 (Medium)",
+
+      water == "Low" ~ "2 (Low)",
+      water == "low" ~ "2 (Low)",
+
+      water == "Very Low" ~ "1 (Very Low)",
+      water == "Very low" ~ "1 (Very Low)"
+    )
+  )
+```
+```{r}
+plantsp5$waternumber
+```
+```{r}
+plantsp5 <- plantsp5 %>%
+  mutate(sunlight=tolower(sunlight))
+```
+```{r}
+plantsp5 <- plantsp5 %>%
+  mutate(
+    sunlight = recode(
+      sunlight,
+      "full sun/partial shade/full shade" = "full sun/partial shade/ full shade"))
+```
+
+```{r}
+plantsp5 %>%
+  ggplot(aes(x = sunlight, fill = factor(waternumber))) +
+  geom_bar(position = "stack") +
+  labs(
+    x = "Sunlight Required",
+    y = "Count",
+    fill = "Water Level"
+  )
+```
+This tells us a lot about each category. The data doesn't look very convinceing that there is a correlation between overall sunlight requirement and water requirement. I do however think this data isn't exactly the best at categorizing it's data. I had to do a lot of work above to combine/even out categories and I think that there should be a more numerical way of categorizing some of the sunlight/water level statistics. This would make it much easier to analyze (min rainfall per year required, min sunny days per year required etc.)
+
+Next I will visualize temperature germination and days germination
+
+```{r}
+plantsp5 %>%
+  ggplot(aes(x=days_germination, y=temperature_germination)) + 
+  geom_point() + geom_smooth(method="lm") +
+  labs(
+    x= "	Optimal germination temperature (Celsius)",
+    y= "Days to germination at optimum temperature",
+    title = "Germination time (days) by optimal germination temperature"
+  )
+```
+
