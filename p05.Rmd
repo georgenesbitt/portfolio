@@ -93,6 +93,11 @@ plantsp5 %>%
     title = "Germination time (days) by optimal germination temperature"
   )
 ```
+
+
+
+
 What I've learned from visualizing this data visualizaiton is that this dataset kinda sucks. You can see both along the y and x axis that there are some data points that are ranges and some that are whole numbers. What would help a lot is if we just had whole numbers. Perhaps if this dataset's variable was minimum_temp instead of temperature, we might be able to visualize a result in a way that shows some sort of correlation. There are also some that are n/a or not available which eliminates data from analysis. 
 
-I was hoping to find some sort of correlation (positive or negative) between temperature and days, but because the data sucked it was hard to discern that. 
+I was hoping to find some sort of correlation (positive or negative) between temperature and days, such that I could plot the dots and ad a line over the data but because the data had ranges and some didn't even apply, it was hard to discern that. 
+

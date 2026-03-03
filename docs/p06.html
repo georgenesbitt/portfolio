@@ -295,13 +295,77 @@ $(document).ready(function () {
 </div>
 
 
-<blockquote>
-<p>The projects should be numbered consecutively (i.e., in the order in
-which you began them), and should include for each project a description
-of the goal, the product (computer program, hand graph, computer graph,
-etc.), the data, and some interpretation. Reports must be reproducible
-and of high quality in terms of writing, grammar, presentation, etc.</p>
-</blockquote>
+<pre class="r"><code>tuesdata &lt;- tidytuesdayR::tt_load(&#39;2026-03-03&#39;)</code></pre>
+<pre><code>## ---- Compiling #TidyTuesday Information for 2026-03-03 ----
+## --- There are 2 files available ---
+## 
+## 
+## ── Downloading files ───────────────────────────────────────────────────────────
+## 
+##   1 of 2: &quot;clutch_size_cleaned.csv&quot;
+##   2 of 2: &quot;tortoise_body_condition_cleaned.csv&quot;</code></pre>
+<pre class="r"><code>tortoises &lt;- tuesdata$clutch_size_cleaned</code></pre>
+<pre class="r"><code>tortoises2&lt;- tuesdata$tortoise_body_condition_cleaned</code></pre>
+<pre class="r"><code>library(tidyverse) </code></pre>
+<p>The data I have just loaded includes data about tortoises. I will
+explore two questions and visualize them in different ways. First I will
+visualize captures by season</p>
+<pre class="r"><code>tortoises2 %&gt;%
+  ggplot(aes(x=season, fill=sex)) +
+           geom_bar() +
+  labs(
+    x=&quot;season&quot;,
+    y=&quot;count&quot;,
+    title=&quot;Tortoises by Sex, Season Recaptured In&quot;)</code></pre>
+<p><img src="p06_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672" />
+This shows much more tortoises captured in the spring than the summer
+and many more males than females recaptured.</p>
+<p>Now let’s visualize this including island vs. mainland. To do this,
+I’ve got to create a new df.</p>
+<pre class="r"><code>glimpse(tortoises2$locality)</code></pre>
+<pre><code>##  chr [1:10174] &quot;Plateau&quot; &quot;Plateau&quot; &quot;Plateau&quot; &quot;Plateau&quot; &quot;Plateau&quot; &quot;Plateau&quot; ...</code></pre>
+<pre class="r"><code>tortoises2 &lt;- tortoises2 %&gt;%
+  mutate(is_island = if_else(locality == &quot;Konjsko&quot;, &quot;Mainland&quot;, &quot;Island&quot;))</code></pre>
+<pre class="r"><code>tortoises2 %&gt;%
+  ggplot(aes(x=season, fill=sex)) +
+           geom_bar() + facet_wrap(~is_island)+
+  labs(
+    x=&quot;season&quot;,
+    y=&quot;count&quot;,
+    title=&quot;Tortoises by Sex, Season Recaptured In&quot;)</code></pre>
+<p><img src="p06_files/figure-html/unnamed-chunk-7-1.png" alt="" width="672" />
+This shows us that far more tortoises are recaptured on islands than not
+on islands and a higher percentage of turtles are recaputred in the
+summer on the mainland than they are on islands.</p>
+<p>Now lets look at a graph that has to do with body weight and the
+place where the tortoises were found.</p>
+<pre class="r"><code>tortoises2 %&gt;% 
+  ggplot(aes(x=is_island, y=body_mass_grams))+
+  geom_boxplot()+
+  labs(x=&quot;population environment&quot;,
+       y= &quot;Body Mass (grams)&quot;,
+       title= &quot;Distribution of Body Mass: Island vs. Mainland&quot;)</code></pre>
+<p><img src="p06_files/figure-html/unnamed-chunk-8-1.png" alt="" width="672" /></p>
+<p>This data shows that the average mainland tortoise is heavier in
+grams than the island turtle and that the island turtles have smaller
+variation in their weights (this could potentially be due to a higher
+number of tortoises sampled from the island populations). In both
+environments, there are many outliers on the heavy end but on the island
+there is one on the light end.</p>
+<p>Finally, lets look at a timeline of the recaptures as it relates to
+male vs. female. To do this, I am going to have to count unique data
+points per year.</p>
+<pre class="r"><code>tortoises2 %&gt;% 
+  ggplot(aes(x=year,fill=sex)) +
+  geom_bar() + facet_wrap(~is_island)+
+  labs(x=&quot;Year&quot;,
+       y=&quot;# of Tortoises&quot;,
+       fill=&quot;Sex&quot;,
+       title=&quot;Tortoise Recaptures by Year, Including Sex and Location Captured&quot;)</code></pre>
+<p><img src="p06_files/figure-html/unnamed-chunk-9-1.png" alt="" width="672" /></p>
+<p>This shows the distribution of years recaptured over time and gives
+lots of important info about where, the gender and place of the
+tortoises.</p>
 
 
 

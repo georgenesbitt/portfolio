@@ -320,24 +320,27 @@ the world.</p>
 ## 6    6 2026-02-10                         The 2026 Winter Olympics!
 ## 7    7 2026-02-17 Agricultural Production Statistics in New Zealand
 ## 8    8 2026-02-24     Science Foundation Ireland Grants Commitments
-##                                                     Source
-## 1                                                     &lt;NA&gt;
-## 2                                      Languages of Africa
-## 3                                                 NASA API
-## 4                           Open data CNPJ - December 2025
-## 5                                    Edible Plant Database
-## 6                 Milano-Cortina 2026 Winter Olympics Data
-## 7                                                Figure.NZ
-## 8 Science Foundation Ireland Historical Grants Commitments
-##                                                    Article
-## 1                                                     &lt;NA&gt;
-## 2                                      Languages of Africa
-## 3                             Astronomy Picture of the Day
-## 4          Wikipedia&#39;s List of largest Brazilian companies
-## 5                                         GROW Observatory
-## 6                            Olympics Schedule and Results
-## 7             Gap between people and sheep rapidly closing
-## 8 Science Foundation Ireland Historical Grants Commitments</code></pre>
+## 9    9 2026-03-03                          Golem Grad Tortoise Data
+##                                                                       Source
+## 1                                                                       &lt;NA&gt;
+## 2                                                        Languages of Africa
+## 3                                                                   NASA API
+## 4                                             Open data CNPJ - December 2025
+## 5                                                      Edible Plant Database
+## 6                                   Milano-Cortina 2026 Winter Olympics Data
+## 7                                                                  Figure.NZ
+## 8                   Science Foundation Ireland Historical Grants Commitments
+## 9 Sex Ratio Bias Triggers Demographic Suicide in a Dense Tortoise Population
+##                                                                      Article
+## 1                                                                       &lt;NA&gt;
+## 2                                                        Languages of Africa
+## 3                                               Astronomy Picture of the Day
+## 4                            Wikipedia&#39;s List of largest Brazilian companies
+## 5                                                           GROW Observatory
+## 6                                              Olympics Schedule and Results
+## 7                               Gap between people and sheep rapidly closing
+## 8                   Science Foundation Ireland Historical Grants Commitments
+## 9 Sex Ratio Bias Triggers Demographic Suicide in a Dense Tortoise Population</code></pre>
 <pre class="r"><code>plants&lt;-tt_load(&quot;2026-02-03&quot;)</code></pre>
 <pre><code>## ---- Compiling #TidyTuesday Information for 2026-02-03 ----
 ## --- There is 1 file available ---
@@ -496,18 +499,19 @@ germination</p>
     title = &quot;Germination time (days) by optimal germination temperature&quot;
   )</code></pre>
 <pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
-<p><img src="p05_files/figure-html/unnamed-chunk-12-1.png" alt="" width="672" />
-What I’ve learned from visualizing this data visualizaiton is that this
-dataset kinda sucks. You can see both along the y and x axis that there
-are some data points that are ranges and some that are whole numbers.
-What would help a lot is if we just had whole numbers. Perhaps if this
-dataset’s variable was minimum_temp instead of temperature, we might be
-able to visualize a result in a way that shows some sort of correlation.
-There are also some that are n/a or not available which eliminates data
-from analysis.</p>
+<p><img src="p05_files/figure-html/unnamed-chunk-12-1.png" alt="" width="672" /></p>
+<p>What I’ve learned from visualizing this data visualizaiton is that
+this dataset kinda sucks. You can see both along the y and x axis that
+there are some data points that are ranges and some that are whole
+numbers. What would help a lot is if we just had whole numbers. Perhaps
+if this dataset’s variable was minimum_temp instead of temperature, we
+might be able to visualize a result in a way that shows some sort of
+correlation. There are also some that are n/a or not available which
+eliminates data from analysis.</p>
 <p>I was hoping to find some sort of correlation (positive or negative)
-between temperature and days, but because the data sucked it was hard to
-discern that.</p>
+between temperature and days, such that I could plot the dots and ad a
+line over the data but because the data had ranges and some didn’t even
+apply, it was hard to discern that.</p>
 
 
 

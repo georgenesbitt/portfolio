@@ -1,5 +1,81 @@
 ---
 title: "Portfolio 6"
 ---
+```{r}
+tuesdata <- tidytuesdayR::tt_load('2026-03-03')
+```
+```{r}
+tortoises <- tuesdata$clutch_size_cleaned
+```
+```{r}
+tortoises2<- tuesdata$tortoise_body_condition_cleaned
+```
+```{r load-packages, message=FALSE}
+library(tidyverse) 
+```
 
-> The projects should be numbered consecutively (i.e., in the order in which you began them), and should include for each project a description of the goal, the product (computer program, hand graph, computer graph, etc.), the data, and some interpretation. Reports must be reproducible and of high quality in terms of writing, grammar, presentation, etc.
+The data I have just loaded includes data about tortoises. I will explore two questions and visualize them in different ways. First I will visualize captures by season
+```{r}
+tortoises2 %>%
+  ggplot(aes(x=season, fill=sex)) +
+           geom_bar() +
+  labs(
+    x="season",
+    y="count",
+    title="Tortoises by Sex, Season Recaptured In")
+    
+```
+This shows much more tortoises captured in the spring than the summer and many more males than females recaptured.
+
+Now let's visualize this including island vs. mainland. To do this, I've got to create a new df. 
+
+```{r}
+glimpse(tortoises2$locality)
+```
+
+
+```{r}
+tortoises2 <- tortoises2 %>%
+  mutate(is_island = if_else(locality == "Konjsko", "Mainland", "Island"))
+```
+
+```{r}
+tortoises2 %>%
+  ggplot(aes(x=season, fill=sex)) +
+           geom_bar() + facet_wrap(~is_island)+
+  labs(
+    x="season",
+    y="count",
+    title="Tortoises by Sex, Season Recaptured In")
+    
+```
+This shows us that far more tortoises are recaptured on islands than not on islands and a higher percentage of turtles are recaputred in the summer on the mainland than they are on islands. 
+
+Now lets look at a graph that has to do with body weight and the place where the tortoises were found. 
+
+
+```{r}
+tortoises2 %>% 
+  ggplot(aes(x=is_island, y=body_mass_grams))+
+  geom_boxplot()+
+  labs(x="population environment",
+       y= "Body Mass (grams)",
+       title= "Distribution of Body Mass: Island vs. Mainland")
+```
+
+This data shows that the average mainland tortoise is heavier in grams than the island turtle and that the island turtles have smaller variation in their weights (this could potentially be due to a higher number of tortoises sampled from the island populations). In both environments, there are many outliers on the heavy end but on the island there is one on the light end. 
+
+
+Finally, lets look at a timeline of the recaptures as it relates to male vs. female. To do this, I am going to have to count unique data points per year. 
+```{r}
+tortoises2 %>% 
+  ggplot(aes(x=year,fill=sex)) +
+  geom_bar() + facet_wrap(~is_island)+
+  labs(x="Year",
+       y="# of Tortoises",
+       fill="Sex",
+       title="Tortoise Recaptures by Year, Including Sex and Location Captured")
+```
+
+This shows the distribution of years recaptured over time and gives lots of important info about where, the gender and place of the tortoises. 
+
